@@ -2,6 +2,6 @@ use actix_web::ResponseError;
 use thiserror::Error;
 
 #[derive(Error, Debug)]
-enum MyError {}
+enum CustomError {}
 
-impl ResponseError for MyError {}
+impl ResponseError for CustomError {}
