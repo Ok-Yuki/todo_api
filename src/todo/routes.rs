@@ -1,9 +1,9 @@
 use actix_web::{web, Error, HttpResponse};
 
-use crate::models::todo::Todo;
+use crate::todo::models::Todo;
 
 
-pub async fn get_todo(web::Path(id): web::Path<u32>) -> Result<HttpResponse, Error> {
+async fn get_todo(web::Path(id): web::Path<u32>) -> Result<HttpResponse, Error> {
     println!("get_todo");
     let id_option: Option<u32> = Some(id);
     Ok(
@@ -14,7 +14,7 @@ pub async fn get_todo(web::Path(id): web::Path<u32>) -> Result<HttpResponse, Err
     }))
 }
 
-pub async fn get_todo_list() -> Result<HttpResponse, Error> {
+async fn get_todo_list() -> Result<HttpResponse, Error> {
     println!("get_todo_list");
     let todo_list = [
         Todo {
@@ -39,10 +39,16 @@ pub async fn get_todo_list() -> Result<HttpResponse, Error> {
         ))
 }
 
-pub async fn post_todo(todo: web::Json<Todo>) -> Result<HttpResponse, Error> {
+async fn post_todo(todo: web::Json<Todo>) -> Result<HttpResponse, Error> {
     println!("post_todo");
     println!("{:?}", todo);
     Ok(
         HttpResponse::Ok().body("ok")
     )
+}
+
+pub fn config(cfg: &mut web::ServiceConfig) {
+    cfg.route("/item/{id}", web::get().to(get_todo))
+        .route("/list", web::get().to(get_todo_list))
+        .route("/create", web::post().to(post_todo));
 }

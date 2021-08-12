@@ -6,7 +6,7 @@ use actix_web::{
 use dotenv::dotenv;
 use listenfd::ListenFd;
 
-use todo_api::routes::todo;
+mod todo;
 
 
 #[actix_web::main]
@@ -17,7 +17,7 @@ async fn main() -> std::io::Result<()> {
     let mut server = HttpServer::new(|| {
         App::new()
             .wrap(middleware::Logger::default())
-            .service(web::scope("/todo").configure(todo::todos))
+            .service(web::scope("/todo").configure(todo::config))
     });
 
     env_logger::init();
