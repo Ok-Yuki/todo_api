@@ -47,7 +47,7 @@ async fn post_todo(todo: web::Json<Todo>) -> Result<HttpResponse, Error> {
     )
 }
 
-pub fn config(cfg: &mut web::ServiceConfig) {
+pub fn routes_config(cfg: &mut web::ServiceConfig) {
     cfg.route("/item/{id}", web::get().to(get_todo))
         .route("/list", web::get().to(get_todo_list))
         .route("/create", web::post().to(post_todo));

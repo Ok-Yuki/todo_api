@@ -17,7 +17,7 @@ async fn main() -> std::io::Result<()> {
     let mut server = HttpServer::new(|| {
         App::new()
             .wrap(middleware::Logger::default())
-            .service(web::scope("/todo").configure(todo::config))
+            .service(web::scope("/todo").configure(todo::routes_config))
     });
 
     env_logger::init();
