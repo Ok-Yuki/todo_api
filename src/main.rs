@@ -19,6 +19,9 @@ async fn main() -> std::io::Result<()> {
             .wrap(middleware::Logger::default())
             .service(web::scope("/todo").configure(todo::todos))
     });
+
+    env_logger::init();
+
     server = match listenfd.take_tcp_listener(0)? {
         Some(listener) => server.listen(listener)?,
         None => {
