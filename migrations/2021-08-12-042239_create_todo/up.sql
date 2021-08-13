@@ -1,0 +1,5 @@
+CREATE TABLE todo (
+    id SERIAL PRIMARY KEY,
+    content VARCHAR NOT NULL,
+    done BOOLEAN NOT NULL DEFAULT false
+)
