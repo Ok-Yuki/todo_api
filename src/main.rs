@@ -6,8 +6,7 @@ use actix_web::{
 use dotenv::dotenv;
 use listenfd::ListenFd;
 
-mod todo;
-
+use todo_api::todo;
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
@@ -25,8 +24,8 @@ async fn main() -> std::io::Result<()> {
     server = match listenfd.take_tcp_listener(0)? {
         Some(listener) => server.listen(listener)?,
         None => {
-            let host = env::var("HOST").expect("Set host in .env");
-            let port = env::var("PORT").expect("Set port in .env");
+            let host = env::var("HOST").expect("Set host in env");
+            let port = env::var("PORT").expect("Set port in env");
             server.bind(format!("{}:{}", host, port))?
         }
     };
