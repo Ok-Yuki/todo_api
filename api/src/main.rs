@@ -7,10 +7,13 @@ use dotenv::dotenv;
 use listenfd::ListenFd;
 
 use todo_api::todo;
+use todo_api::db;
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
     dotenv().ok();
+    db::init();
+
     let mut listenfd = ListenFd::from_env();
 
     let mut server = HttpServer::new(|| {

@@ -54,4 +54,13 @@ impl Todos {
         let res = diesel::delete(todo::table.filter(todo::id.eq(id))).execute(&conn)?;
         Ok(res)
     }
+
+    pub fn update(id: i32, todo: Todo) -> Result<Self, CustomError> {
+        let conn = db::connection()?;
+        let todo = diesel::update(todo::table)
+            .filter(todo::id.eq(id))
+            .set(todo)
+            .get_result(&conn)?;
+        Ok(todo)
+    }
 }

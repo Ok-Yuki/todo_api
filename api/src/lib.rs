@@ -1,4 +1,4 @@
-mod db;
+pub mod db;
 mod error_handler;
 mod schema;
 pub mod todo;
@@ -7,4 +7,6 @@ pub mod todo;
 extern crate diesel;
 #[macro_use]
 extern crate diesel_migrations;
+#[macro_use]
+extern crate serde_json;
 

@@ -24,8 +24,24 @@ async fn create_item(web::Json(todo): web::Json<Todo>) -> Result<HttpResponse, E
     )
 }
 
+async fn delete_item(web::Path(id): web::Path<i32>) -> Result<HttpResponse, Error> {
+    let deleted_todo = Todos::delete(id)?;
+    Ok(
+        HttpResponse::Ok().json(json!({ "deleted": deleted_todo }))
+    )
+}
+
+async fn update_item(web::Path(id): web::Path<i32>, web::Json(todo): web::Json<Todo>) -> Result<HttpResponse, Error> {
+    let todo = Todos::update(id, todo)?;
+    Ok(
+        HttpResponse::Ok().json(todo)
+    )
+}
+
 pub fn routes_config(cfg: &mut web::ServiceConfig) {
-    cfg.route("/item/{id}", web::get().to(get_item))
+    cfg.route("/get/{id}", web::get().to(get_item))
         .route("/list", web::get().to(get_list))
-        .route("/create", web::post().to(create_item));
+        .route("/create", web::post().to(create_item))
+        .route("/delete/{id}", web::get().to(delete_item))
+        .route("/update/{id}", web::put().to(update_item));
 }
