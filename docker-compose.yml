@@ -1,8 +1,25 @@
 version: "3"
 services:
-  tododb:
+  api:
+    build:
+      context: ./api
+      target: 'develop-stage'
+    container_name: "api"
+    environment:
+      - RUST_LOG
+      - HOST
+      - PORT
+      - DATABASE_URL
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    volumes:
+      - ./api:/api
+    command: /bin/sh -c "cargo watch -x run"
+  db:
     image: postgres:13.4
-    container_name: "tododb"
+    container_name: "db"
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
